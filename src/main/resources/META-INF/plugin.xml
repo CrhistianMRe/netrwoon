@@ -8,16 +8,16 @@
     <name>Netrwoon</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor url="https://www.yourcompany.com">YourCompany</vendor>
+    <vendor url="https://github.com/CrhistianMRe">CrhistianMRe</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
-    <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
-  ]]></description>
+   <description><![CDATA[
+    Netrw-based plugin for IntelliJ.
+   awdwadawdawdawdadawdawdawdawdwadwa
+   ]]></description>
 
-    <!-- Product and plugin compatibility requirements.
+   <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
@@ -26,4 +26,13 @@
     <extensions defaultExtensionNs="com.intellij">
 
     </extensions>
+
+    <actions>
+        <group id="com.crhistianm.netrwoon.actionsGroup" text="Netrwoon" description="Netrwoon plugin actions" popup="true">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </group>
+        <action id="NetrwoonOpen" class="com.crhistianm.netrwoon.actions.OpenNetrwoonAction" text="Open Netrwoon">
+            <add-to-group group-id="com.crhistianm.netrwoon.actionsGroup" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>
