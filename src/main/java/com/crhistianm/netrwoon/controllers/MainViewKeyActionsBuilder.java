@@ -9,11 +9,14 @@ import static java.util.Objects.isNull;
 
 class MainViewKeyActionsBuilder{
 
+    private Runnable onGoInto;
+
     private Runnable onGoBack;
 
     private Runnable onMoveUp;
 
     private Runnable onMoveDown;
+
 
     MainViewKeyActionsBuilder onMoveDown(Runnable onMoveDown) {
         this.onMoveDown = onMoveDown;
@@ -32,17 +35,24 @@ class MainViewKeyActionsBuilder{
         return this;
     }
 
+    MainViewKeyActionsBuilder onGoInto(Runnable onGoInto) {
+        this.onGoInto = onGoInto;
+        return this;
+    }
+
 
     private void validateBuild() {
         if(isNull(this.onMoveDown)) throw new IllegalStateException("onMoveDown action missing!");
         if(isNull(this.onMoveUp)) throw new IllegalStateException("onMoveUp action missing!");
         if(isNull(this.onGoBack)) throw new IllegalStateException("onGoBack action missing!");
+        if(isNull(this.onGoInto)) throw new IllegalStateException("onGoInto action missing!");
     }
 
     ActionMap build() {
         validateBuild();
         ActionMap map = new ActionMap();
         
+        map.put("goInto", createAction(this.onGoInto));
         map.put("goBack", createAction(this.onGoBack));
 
         //Movement

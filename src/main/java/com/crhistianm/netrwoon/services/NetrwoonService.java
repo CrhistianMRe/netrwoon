@@ -20,14 +20,17 @@ public final class NetrwoonService {
 
     private final NetrwoonState state; 
 
+    private final FileEditorManager fileEditorManager;
 
     private Consumer<String> pathListener;
 
     public NetrwoonService(FileEditorManager fileEditorManager, NetrwoonState state) {
+        this.fileEditorManager = fileEditorManager;
         this.state = state;
     }
 
     public NetrwoonService(Project project) {
+        fileEditorManager = FileEditorManager.getInstance(project);
         this.state = new NetrwoonState();
     }
 
@@ -69,6 +72,22 @@ public final class NetrwoonService {
         setCurrentDirectory(state.getCurrentDirectory().getParent());
     }
 
+    public void goInto(String pathChildName, Runnable onFileOpened){
+        VirtualFile enteredFile = getSelected(pathChildName);
+
+        if(!enteredFile.isValid()) return;
+
+        if(enteredFile.isDirectory()){
+            setCurrentDirectory(enteredFile);
+        }
+
+        if(!enteredFile.isDirectory()) {
+            try { fileEditorManager.openFile(enteredFile, true); } 
+            catch (Exception e) { throw e; } 
+            finally { onFileOpened.run(); }
+        }
+
+    }
     public DefaultListModel<String> getList() {
         return this.state.getCurrentDirectoryList();
     }
@@ -91,6 +110,11 @@ public final class NetrwoonService {
         this.state.setCurrentDirectory(currentDirectory);
         loadList();
         notifyPathChanged();
+    }
+
+    private VirtualFile getSelected(String selectedFile){
+        selectedFile = removeSlash(selectedFile);
+        return state.getCurrentDirectory().findChild(selectedFile);
     }
 
     private String removeSlash(String arg){ 
