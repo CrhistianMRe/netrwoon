@@ -1,16 +1,16 @@
 package com.crhistianm.netrwoon.controllers;
 
 
-
 import javax.swing.DefaultListModel;
-
 import com.crhistianm.netrwoon.components.NetrwoonDialogWrapper;
+
 import com.crhistianm.netrwoon.services.NetrwoonService;
+
 
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.components.JBList;
 
-public class NetrwoonController{
+public class NetrwoonController {
 
     private JBList<String> list;
 
@@ -31,6 +31,7 @@ public class NetrwoonController{
         list.setFocusable(true);
         dialog = new NetrwoonDialogWrapper(list, project);
 
+        setPathLabelText();
         selectFirstIndex();
     }
 
@@ -40,6 +41,11 @@ public class NetrwoonController{
 
     private void selectFirstIndex(){
         if(list.getModel().getSize() != 0) list.setSelectedIndex(0);
+    }
+
+    private void setPathLabelText(){
+        dialog.setPathText(service.getCurrentPath());
+        service.setPathListener(path -> dialog.setPathText(path));
     }
 
 
