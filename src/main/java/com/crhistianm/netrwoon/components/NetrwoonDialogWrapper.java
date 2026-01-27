@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.crhistianm.netrwoon.states.SettingsState;
+import com.crhistianm.netrwoon.states.SettingsState.State;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.wm.WindowManager;
@@ -33,7 +35,12 @@ public class NetrwoonDialogWrapper extends DialogWrapper {
     private void loadSize(Project project){
         Dimension ideSize = WindowManager.getInstance().getFrame(project).getSize();
 
-        this.setSize(ideSize.width, ideSize.height);
+        State settingsState = SettingsState.getInstance().getState();
+        if(settingsState.width > 0 && settingsState.height > 0) {
+            this.setSize(settingsState.width, settingsState.height);
+        } else if(ideSize != null) {
+            this.setSize(ideSize.width, ideSize.height);
+        }
     }
 
     @Override
