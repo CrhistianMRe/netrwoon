@@ -20,6 +20,7 @@ public final class NetrwoonService {
 
     private final NetrwoonState state; 
 
+
     private Consumer<String> pathListener;
 
     public NetrwoonService(FileEditorManager fileEditorManager, NetrwoonState state) {
@@ -62,6 +63,10 @@ public final class NetrwoonService {
             return result;
         }
 
+    }
+
+    public void goBack(){
+        setCurrentDirectory(state.getCurrentDirectory().getParent());
     }
 
     public DefaultListModel<String> getList() {
