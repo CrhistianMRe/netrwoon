@@ -12,10 +12,11 @@ import static com.crhistianm.netrwoon.controllers.KeyBinds.getMainViewKeyBinds;
 import com.crhistianm.netrwoon.services.NetrwoonService;
 
 
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.components.JBList;
 
-public class NetrwoonController {
+public class NetrwoonController implements Disposable{
 
     private JBList<String> list;
 
@@ -73,12 +74,6 @@ public class NetrwoonController {
             }
         })
 
-
-        .onGoBack( () -> {
-            service.goBack();
-            selectFirstIndex();
-        })
-
         .onGoInto( () -> {
             service.goInto(list.getSelectedValue(), () -> {
                 dialog.close(0);
@@ -86,12 +81,29 @@ public class NetrwoonController {
             selectFirstIndex();
         })
 
+        .onGoBack( () -> {
+            service.goBack();
+            selectFirstIndex();
+        })
+
+        .onEscape( () -> {
+            this.dispose();
+        })
         .build();
 
 
         list.setInputMap(JComponent.WHEN_FOCUSED, getMainViewKeyBinds());
         list.setActionMap(keyBindActions);
+
     }
 
+
+    @Override
+    public void dispose() {
+        service.setPathListener(null);
+        this.dialog.close(0);
+        this.dialog = null;
+        this.list = null;
+    }
     
 }
