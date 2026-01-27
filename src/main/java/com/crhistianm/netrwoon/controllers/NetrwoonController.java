@@ -15,7 +15,7 @@ import com.crhistianm.netrwoon.services.NetrwoonService;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.components.JBList;
 
-public class NetrwoonController{
+public class NetrwoonController {
 
     private JBList<String> list;
 
@@ -79,12 +79,19 @@ public class NetrwoonController{
             selectFirstIndex();
         })
 
+        .onGoInto( () -> {
+            service.goInto(list.getSelectedValue(), () -> {
+                dialog.close(0);
+            });
+            selectFirstIndex();
+        })
+
         .build();
 
 
         list.setInputMap(JComponent.WHEN_FOCUSED, getMainViewKeyBinds());
         list.setActionMap(keyBindActions);
-
     }
 
+    
 }
