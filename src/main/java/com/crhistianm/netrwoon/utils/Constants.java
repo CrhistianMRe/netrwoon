@@ -6,5 +6,6 @@ public class Constants {
 
     public static final String HELP_LABEL_TEXT = "Quick Help: -:go up dir  D:delete  R:rename %:create file d:create directory esc:exit";
 
+    public static final String SETTINGS_HEADER = "Netrwoon Settings";
     
 }
