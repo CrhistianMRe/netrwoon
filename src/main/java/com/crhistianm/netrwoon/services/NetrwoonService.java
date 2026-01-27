@@ -4,6 +4,7 @@ package com.crhistianm.netrwoon.services;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
@@ -18,6 +19,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 public final class NetrwoonService {
 
     private final NetrwoonState state; 
+
+    private Consumer<String> pathListener;
 
     public NetrwoonService(FileEditorManager fileEditorManager, NetrwoonState state) {
         this.state = state;
@@ -61,7 +64,6 @@ public final class NetrwoonService {
 
     }
 
-
     public DefaultListModel<String> getList() {
         return this.state.getCurrentDirectoryList();
     }
@@ -70,10 +72,20 @@ public final class NetrwoonService {
         return this.state.getCurrentDirectory().getPath();
     }
 
+    private void notifyPathChanged() {
+        if(pathListener != null){
+            pathListener.accept(getCurrentPath());
+        }
+    }
+
+    public void setPathListener(Consumer<String> listener) {
+        pathListener = listener;
+    }
 
     public void setCurrentDirectory(VirtualFile currentDirectory) {
         this.state.setCurrentDirectory(currentDirectory);
         loadList();
+        notifyPathChanged();
     }
 
     private String removeSlash(String arg){ 
