@@ -9,6 +9,8 @@ import static java.util.Objects.isNull;
 
 class MainViewKeyActionsBuilder{
 
+    private Runnable onGoBack;
+
     private Runnable onMoveUp;
 
     private Runnable onMoveDown;
@@ -18,20 +20,31 @@ class MainViewKeyActionsBuilder{
         return this;
     }
 
+
     MainViewKeyActionsBuilder onMoveUp(Runnable onMoveUp) {
         this.onMoveUp = onMoveUp;
         return this;
     }
 
+
+    MainViewKeyActionsBuilder onGoBack(Runnable onGoBack) {
+        this.onGoBack = onGoBack;
+        return this;
+    }
+
+
     private void validateBuild() {
         if(isNull(this.onMoveDown)) throw new IllegalStateException("onMoveDown action missing!");
         if(isNull(this.onMoveUp)) throw new IllegalStateException("onMoveUp action missing!");
+        if(isNull(this.onGoBack)) throw new IllegalStateException("onGoBack action missing!");
     }
 
     ActionMap build() {
         validateBuild();
         ActionMap map = new ActionMap();
         
+        map.put("goBack", createAction(this.onGoBack));
+
         //Movement
         map.put("moveUp", createAction(this.onMoveUp));
         map.put("moveDown", createAction(this.onMoveDown));
