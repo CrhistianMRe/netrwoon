@@ -125,6 +125,14 @@ public class NetrwoonController implements Disposable{
             commandTextField.setCurrentOperation(CREATE_DIRECTORY);
         })
 
+        .onRenameSelected( () -> {
+            if(list.getSelectedValue() != null){
+                dialog.setCommandLabelText("Renaming: ");
+                commandTextField.setEnabled(true);
+                commandTextField.setText(list.getSelectedValue());
+                commandTextField.setCurrentOperation(RENAME_SELECTED);
+            }
+        })
         .build();
 
 
@@ -162,6 +170,9 @@ public class NetrwoonController implements Disposable{
             CommandOperationType operation = dialog.getCommandTextField().getCurrentOperation();
             if(operation.equals(CREATE_FILE)){
                 service.createFile(dialog.getCommandTextField().getText());
+            }
+            if(operation.equals(RENAME_SELECTED)){
+                service.renameFile(list.getSelectedValue(), dialog.getCommandTextField().getText());
             }
             if(operation.equals(CREATE_DIRECTORY)){
                 service.createDirectory(dialog.getCommandTextField().getText());

@@ -17,6 +17,7 @@ class KeyBinds {
         im.put(KeyStroke.getKeyStroke('%'), "createFile");
         im.put(KeyStroke.getKeyStroke('d'), "createDirectory");
         im.put(KeyStroke.getKeyStroke('D'), "deleteSelected");
+        im.put(KeyStroke.getKeyStroke('R'), "renameSelected");
         return im;
     }
 

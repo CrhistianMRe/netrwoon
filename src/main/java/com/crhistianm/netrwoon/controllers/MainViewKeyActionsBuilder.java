@@ -25,6 +25,14 @@ class MainViewKeyActionsBuilder{
 
     private Runnable onDeleteSelected;
 
+    private Runnable onRenameSelected;
+
+    MainViewKeyActionsBuilder onRenameSelected(Runnable onRenameSelected) {
+        this.onRenameSelected = onRenameSelected;
+        return this;
+    }
+
+
     MainViewKeyActionsBuilder onDeleteSelected(Runnable onDeleteSelected) {
         this.onDeleteSelected = onDeleteSelected;
         return this;
@@ -71,6 +79,7 @@ class MainViewKeyActionsBuilder{
     }
 
     private void validateBuild() {
+        if(isNull(this.onRenameSelected)) throw new IllegalStateException("onRenameSelected action missing!");
         if(isNull(this.onDeleteSelected)) throw new IllegalStateException("onDeleteSelected action missing!");
         if(isNull(this.onCreateDirectory)) throw new IllegalStateException("onCreateDirectory action missing!");
         if(isNull(this.onCreateFile)) throw new IllegalStateException("onCreateFile action missing!");
@@ -97,6 +106,7 @@ class MainViewKeyActionsBuilder{
         map.put("createFile", createAction(this.onCreateFile));
         map.put("createDirectory", createAction(this.onCreateDirectory));
         map.put("deleteSelected", createAction(this.onDeleteSelected));
+        map.put("renameSelected", createAction(this.onRenameSelected));
         return map;
     }
 
