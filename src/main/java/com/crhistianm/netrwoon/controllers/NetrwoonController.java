@@ -111,11 +111,20 @@ public class NetrwoonController implements Disposable{
             commandTextField.setCurrentOperation(CREATE_FILE);
         })
 
+        .onDeleteSelected( () -> {
+            if(list.getSelectedValue() != null){
+                dialog.setCommandLabelText("Deleting " + "\"" +list.getSelectedValue()+" \"" + " yes, no:");
+                commandTextField.setEnabled(true);
+                commandTextField.setCurrentOperation(DELETE_SELECTED);
+            }
+        })
+
         .onCreateDirectory( () -> {
             dialog.setCommandLabelText("Creating directory: ");
             commandTextField.setEnabled(true);
             commandTextField.setCurrentOperation(CREATE_DIRECTORY);
         })
+
         .build();
 
 
@@ -156,6 +165,9 @@ public class NetrwoonController implements Disposable{
             }
             if(operation.equals(CREATE_DIRECTORY)){
                 service.createDirectory(dialog.getCommandTextField().getText());
+            }
+            if(operation.equals(DELETE_SELECTED)){
+                service.deleteSelected(list.getSelectedValue(), dialog.getCommandTextField().getText());
             }
             dialog.getCommandTextField().setEnabled(false);
         })

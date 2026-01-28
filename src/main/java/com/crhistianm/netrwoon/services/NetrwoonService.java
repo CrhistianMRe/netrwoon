@@ -91,6 +91,21 @@ public final class NetrwoonService {
 
     }
 
+    public void deleteSelected(String fileString, String answer) {
+        if(!answer.toLowerCase().contains("yes")) return;
+
+        VirtualFile enteredFile = getSelected(fileString);
+        if(!enteredFile.isValid()) return;
+
+        try { 
+            WriteAction.run(() -> {
+                enteredFile.delete(this); 
+            });
+        }
+        catch (IOException e) { System.out.println(e.getMessage()); }
+        loadList();
+    }
+
     public void createFile(String fileString) {
         try { 
             WriteAction.run(() -> {
