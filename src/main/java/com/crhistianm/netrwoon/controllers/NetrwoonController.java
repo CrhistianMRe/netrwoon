@@ -1,19 +1,28 @@
 package com.crhistianm.netrwoon.controllers;
 
 
+import java.util.Arrays;
 
 import javax.swing.ActionMap;
 import javax.swing.DefaultListModel;
+import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
+import com.crhistianm.netrwoon.components.CommandTextField;
 import com.crhistianm.netrwoon.components.NetrwoonDialogWrapper;
 
+import static com.crhistianm.netrwoon.controllers.KeyBinds.getCommandFieldKeyBinds;
 import static com.crhistianm.netrwoon.controllers.KeyBinds.getMainViewKeyBinds;
+import static com.crhistianm.netrwoon.utils.Utils.createPropertyListener;
 import com.crhistianm.netrwoon.services.NetrwoonService;
+import com.crhistianm.netrwoon.utils.CommandOperationType;
 
+import static com.crhistianm.netrwoon.utils.CommandOperationType.*;
 
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.ui.components.JBList;
 
 public class NetrwoonController implements Disposable{
@@ -39,6 +48,8 @@ public class NetrwoonController implements Disposable{
 
         loadListBindings();
         setPathLabelText();
+        loadCommandFieldBindings();
+        loadCommandFieldListeners();
         selectFirstIndex();
     }
 
@@ -54,9 +65,13 @@ public class NetrwoonController implements Disposable{
         dialog.setPathText(service.getCurrentPath());
         service.setPathListener(path -> dialog.setPathText(path));
     }
+    private void requestFocus(JComponent component) {
+        IdeFocusManager.getInstance(this.project).requestFocus(component, true);
+    }
 
     private void loadListBindings() {
 
+        CommandTextField commandTextField = dialog.getCommandTextField();
         ActionMap keyBindActions = new MainViewKeyActionsBuilder()
         .onMoveUp( () -> {
             int selected = list.getSelectedIndex();
@@ -89,6 +104,12 @@ public class NetrwoonController implements Disposable{
         .onEscape( () -> {
             this.dispose();
         })
+        
+        .onCreateDirectory( () -> {
+            dialog.setCommandLabelText("Creating directory: ");
+            commandTextField.setEnabled(true);
+            commandTextField.setCurrentOperation(CREATE_DIRECTORY);
+        })
         .build();
 
 
@@ -97,6 +118,55 @@ public class NetrwoonController implements Disposable{
 
     }
 
+    private void loadCommandFieldListeners() {
+        dialog.getCommandTextField().addPropertyChangeListener("enabled", createPropertyListener( evt -> {
+            Boolean enabled = (Boolean) evt.getNewValue();
+            if(enabled){
+                SwingUtilities.invokeLater(() ->{
+                    dialog.getCommandTextField().setEditable(true);
+                    requestFocus(dialog.getCommandTextField());
+                });
+            }
+            if(!enabled){
+                SwingUtilities.invokeLater(() ->{
+                    dialog.getCommandTextField().setText("");
+                    dialog.setCommandLabelText("");
+                    dialog.getCommandTextField().setCurrentOperation(NONE);
+                    requestFocus(list);
+                    selectFirstIndex();
+                });
+            }
+        }));
+    }
+
+    private void loadCommandFieldBindings() {
+        ActionMap actualActions = dialog.getCommandTextField().getActionMap();
+        ActionMap keyBindActions = new CommandFieldKeyActionsBuilder()
+
+        .onEnter(() -> {
+            CommandOperationType operation = dialog.getCommandTextField().getCurrentOperation();
+            if(operation.equals(CREATE_DIRECTORY)){
+                service.createDirectory(dialog.getCommandTextField().getText());
+            }
+            dialog.getCommandTextField().setEnabled(false);
+        })
+
+        .onEscape(() -> {
+            dialog.getCommandTextField().setEnabled(false);
+        }).build();
+
+        InputMap actualInputs = dialog.getCommandTextField().getInputMap();
+        InputMap customInputs = getCommandFieldKeyBinds();
+
+        Arrays.stream(keyBindActions.allKeys()).forEach(key -> {
+            actualActions.put(key, keyBindActions.get(key));
+        });
+        
+        Arrays.stream(customInputs.allKeys()).forEach(key -> {
+            actualInputs.put(key, customInputs.get(key));
+        });
+    
+    }
 
     @Override
     public void dispose() {
