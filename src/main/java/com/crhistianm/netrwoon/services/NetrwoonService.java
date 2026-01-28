@@ -91,6 +91,16 @@ public final class NetrwoonService {
 
     }
 
+    public void createFile(String fileString) {
+        try { 
+            WriteAction.run(() -> {
+                state.getCurrentDirectory().createChildData(this, fileString); 
+            });
+        }
+        catch (IOException e){ System.out.println(e.getMessage()); }
+        loadList();
+    }
+
     public void createDirectory(String directoryName) {
         try{ 
             WriteAction.run(() -> {
