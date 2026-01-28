@@ -19,6 +19,13 @@ class MainViewKeyActionsBuilder{
 
     private Runnable onMoveDown;
 
+    private Runnable onCreateDirectory;
+
+    MainViewKeyActionsBuilder onCreateDirectory(Runnable onCreateDirectory) {
+        this.onCreateDirectory = onCreateDirectory;
+        return this;
+    }
+
     MainViewKeyActionsBuilder onMoveDown(Runnable onMoveDown) {
         this.onMoveDown = onMoveDown;
         return this;
@@ -47,6 +54,7 @@ class MainViewKeyActionsBuilder{
     }
 
     private void validateBuild() {
+        if(isNull(this.onCreateDirectory)) throw new IllegalStateException("onCreateDirectory action missing!");
         if(isNull(this.onMoveDown)) throw new IllegalStateException("onMoveDown action missing!");
         if(isNull(this.onMoveUp)) throw new IllegalStateException("onMoveUp action missing!");
         if(isNull(this.onGoBack)) throw new IllegalStateException("onGoBack action missing!");
@@ -66,6 +74,8 @@ class MainViewKeyActionsBuilder{
         map.put("moveUp", createAction(this.onMoveUp));
         map.put("moveDown", createAction(this.onMoveDown));
 
+        //Persistence
+        map.put("createDirectory", createAction(this.onCreateDirectory));
         return map;
     }
 

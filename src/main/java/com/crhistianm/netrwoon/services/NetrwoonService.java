@@ -1,6 +1,7 @@
 package com.crhistianm.netrwoon.services;
 
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
 
 import com.crhistianm.netrwoon.states.NetrwoonState;
+import com.intellij.openapi.application.WriteAction;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
@@ -88,6 +90,17 @@ public final class NetrwoonService {
         }
 
     }
+
+    public void createDirectory(String directoryName) {
+        try{ 
+            WriteAction.run(() -> {
+                state.getCurrentDirectory().createChildDirectory(this, directoryName);
+            });
+        }
+        catch (IOException e){System.out.println(e.getMessage()); }
+        loadList();
+    }
+
     public DefaultListModel<String> getList() {
         return this.state.getCurrentDirectoryList();
     }
