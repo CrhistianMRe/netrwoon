@@ -23,6 +23,14 @@ class MainViewKeyActionsBuilder{
 
     private Runnable onCreateDirectory;
 
+    private Runnable onDeleteSelected;
+
+    MainViewKeyActionsBuilder onDeleteSelected(Runnable onDeleteSelected) {
+        this.onDeleteSelected = onDeleteSelected;
+        return this;
+    }
+
+
     MainViewKeyActionsBuilder onCreateDirectory(Runnable onCreateDirectory) {
         this.onCreateDirectory = onCreateDirectory;
         return this;
@@ -63,6 +71,7 @@ class MainViewKeyActionsBuilder{
     }
 
     private void validateBuild() {
+        if(isNull(this.onDeleteSelected)) throw new IllegalStateException("onDeleteSelected action missing!");
         if(isNull(this.onCreateDirectory)) throw new IllegalStateException("onCreateDirectory action missing!");
         if(isNull(this.onCreateFile)) throw new IllegalStateException("onCreateFile action missing!");
         if(isNull(this.onMoveDown)) throw new IllegalStateException("onMoveDown action missing!");
@@ -87,6 +96,7 @@ class MainViewKeyActionsBuilder{
         //Persistence
         map.put("createFile", createAction(this.onCreateFile));
         map.put("createDirectory", createAction(this.onCreateDirectory));
+        map.put("deleteSelected", createAction(this.onDeleteSelected));
         return map;
     }
 
