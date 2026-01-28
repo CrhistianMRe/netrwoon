@@ -105,6 +105,12 @@ public class NetrwoonController implements Disposable{
             this.dispose();
         })
         
+        .onCreateFile( () -> {
+            dialog.setCommandLabelText("Creating file: ");
+            commandTextField.setEnabled(true);
+            commandTextField.setCurrentOperation(CREATE_FILE);
+        })
+
         .onCreateDirectory( () -> {
             dialog.setCommandLabelText("Creating directory: ");
             commandTextField.setEnabled(true);
@@ -145,6 +151,9 @@ public class NetrwoonController implements Disposable{
 
         .onEnter(() -> {
             CommandOperationType operation = dialog.getCommandTextField().getCurrentOperation();
+            if(operation.equals(CREATE_FILE)){
+                service.createFile(dialog.getCommandTextField().getText());
+            }
             if(operation.equals(CREATE_DIRECTORY)){
                 service.createDirectory(dialog.getCommandTextField().getText());
             }

@@ -14,6 +14,7 @@ class KeyBinds {
         im.put(KeyStroke.getKeyStroke('-'), "goBack");
         im.put(KeyStroke.getKeyStroke('k'), "moveUp");
         im.put(KeyStroke.getKeyStroke('j'), "moveDown");
+        im.put(KeyStroke.getKeyStroke('%'), "createFile");
         im.put(KeyStroke.getKeyStroke('d'), "createDirectory");
         return im;
     }
