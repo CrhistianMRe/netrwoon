@@ -2,15 +2,15 @@
     <id>com.crhistianm.netrwoon</id>
 
     <name>Netrwoon</name>
-
-    <vendor url="https://github.com/CrhistianMRe">CrhistianMRe</vendor>
-
-   <description><![CDATA[
-    Netrw-based plugin for IntelliJ.
-   awdwadawdawdawdadawdawdawdawdwadwa
+       <description><![CDATA[
+    Netrwoon is a VIM-Netrw like directory listing plugin.
    ]]></description>
 
+
+    <vendor email="came.29meca@gmail.com" url="https://github.com/CrhistianMRe">CrhistianMRe</vendor>
+
     <depends>com.intellij.modules.platform</depends>
+    <depends optional="true" config-file="com.github.erotourtes.harpoon-ideavim.xml">IdeaVIM</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.crhistianm.netrwoon.states.SettingsState"/>
