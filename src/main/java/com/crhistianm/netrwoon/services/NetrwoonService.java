@@ -116,6 +116,18 @@ public final class NetrwoonService {
         loadList();
     }
 
+    public void renameFile(String fileString, String newName) {
+        VirtualFile selectedFile = getSelected(fileString);
+        if(!selectedFile.isValid()) return;
+        try {
+            WriteAction.run(() -> {
+                selectedFile.rename(this, newName); 
+            });
+        }  
+        catch (IOException e) { System.out.println(e.getMessage()); }
+        loadList();
+    }
+
     public void createDirectory(String directoryName) {
         try{ 
             WriteAction.run(() -> {
