@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
 
 import com.crhistianm.netrwoon.states.NetrwoonState;
+import static com.crhistianm.netrwoon.utils.Constants.DOT_CURRENT;
+import static com.crhistianm.netrwoon.utils.Constants.DOT_PARENT;
 import com.intellij.openapi.application.WriteAction;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -36,6 +38,11 @@ public final class NetrwoonService {
         this.state = new NetrwoonState();
     }
 
+    private void addDotEntries() {
+        state.getCurrentDirectoryList().add(0, DOT_PARENT);
+        state.getCurrentDirectoryList().add(1, DOT_CURRENT);
+    }
+
     private void loadList(){
         state.getCurrentDirectoryList().clear();
         Arrays.stream(state.getCurrentDirectory().getChildren()).forEach(file -> {
@@ -47,6 +54,7 @@ public final class NetrwoonService {
             }
         });
         sortListByDirectory();
+        addDotEntries();
     }
 
     private void sortListByDirectory(){
@@ -75,6 +83,15 @@ public final class NetrwoonService {
     }
 
     public void goInto(String pathChildName, Runnable onFileOpened){
+        if(pathChildName.equals(DOT_CURRENT)) {
+            loadList();
+        }
+
+        if(pathChildName.equals(DOT_PARENT)) {
+            goBack();
+            return;
+        }
+
         VirtualFile enteredFile = getSelected(pathChildName);
 
         if(!enteredFile.isValid()) return;
