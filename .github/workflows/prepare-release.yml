@@ -1,0 +1,58 @@
+name: Draft Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  draft_release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      - name: Build Plugin
+        run: ./gradlew buildPlugin
+
+      - name: Create Draft
+        id: create_draft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Creating draft release..."
+          API_JSON=$(jq -n \
+            --arg tag "${GITHUB_REF##*/}" \
+            --arg name "Draft ${GITHUB_REF##*/}" \
+            --arg body "Automatic draft build" \
+            '{ tag_name: $tag, name: $name, body: $body, draft: true, prerelease: false }')
+          
+          RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${GITHUB_REPOSITORY}/releases \
+            -d "$API_JSON")
+          
+          RELEASE_ID=$(echo "$RESPONSE" | jq -r '.id')
+          echo "release_id=$RELEASE_ID" >> $GITHUB_OUTPUT
+
+      - name: Upload Plugin ZIP to Draft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ZIP_FILE=$(ls build/distributions/*.zip | head -n1)
+          echo "Uploading $ZIP_FILE..."
+          curl -s -H "Authorization: token $GITHUB_TOKEN" \
+               -H "Content-Type: application/zip" \
+               --data-binary @"$ZIP_FILE" \
+               "https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${{ steps.create_draft.outputs.release_id }}/assets?name=$(basename $ZIP_FILE)"
+
