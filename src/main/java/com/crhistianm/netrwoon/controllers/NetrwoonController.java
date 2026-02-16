@@ -61,6 +61,11 @@ public class NetrwoonController implements Disposable{
         if(list.getModel().getSize() != 0) list.setSelectedIndex(0);
     }
 
+    private void selectLastIndex(int currentIndex){
+        if(list.getModel().getSize() >= currentIndex) {list.setSelectedIndex(currentIndex);}
+        else { list.setSelectedIndex(list.getLastVisibleIndex()); }
+    }
+
     private void setPathLabelText(){
         dialog.setPathText(service.getCurrentPath());
         service.setPathListener(path -> dialog.setPathText(path));
@@ -90,10 +95,11 @@ public class NetrwoonController implements Disposable{
         })
 
         .onGoInto( () -> {
+            int currentIndex = list.getSelectedIndex();
             service.goInto(list.getSelectedValue(), () -> {
                 dialog.close(0);
             });
-            selectFirstIndex();
+            selectLastIndex(currentIndex);
         })
 
         .onGoBack( () -> {
