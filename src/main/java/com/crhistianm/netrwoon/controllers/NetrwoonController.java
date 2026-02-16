@@ -62,7 +62,7 @@ public class NetrwoonController implements Disposable{
     }
 
     private void selectLastIndex(int currentIndex){
-        if(list.getModel().getSize() >= currentIndex) {list.setSelectedIndex(currentIndex);}
+        if(list.getModel().getSize()-1 >= currentIndex) {list.setSelectedIndex(currentIndex);}
         else { list.setSelectedIndex(list.getLastVisibleIndex()); }
     }
 
