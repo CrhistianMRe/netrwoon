@@ -4,11 +4,11 @@
 
 ## [Unreleased]
 
-## [1.1.0] - 2025-02-16
+## [1.1.0] - 2026-02-16
 
 ### Added
 
-- Remember last selected item to improve validation
+- Remember last selected item to improve navigation 
 
 ## [1.0.0] - 2026-02-16
 
