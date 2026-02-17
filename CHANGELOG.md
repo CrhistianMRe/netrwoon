@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-02-17
+
+### Fixed
+
+- Resolve last item selection bug in directory navigation
+
 ## [1.1.0] - 2026-02-16
 
 ### Added
@@ -18,6 +24,7 @@
 
 [UNRELEASED]: https://github.com/CrhistianMRe/netrwoon/compare/v1.0.0...HEAD
 
+[1.1.1]: https://github.com/CrhistianMRe/netrwoon/commits/v1.1.1
 [1.1.0]: https://github.com/CrhistianMRe/netrwoon/commits/v1.1.0
 [1.0.0]: https://github.com/CrhistianMRe/netrwoon/commits/v1.0.0
 
