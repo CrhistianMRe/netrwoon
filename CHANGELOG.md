@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-03-02
+
+### Added
+
+- Expand plugin compatibility starting from version 223.x
+
 ## [1.1.1] - 2026-02-17
 
 ### Fixed
@@ -24,6 +30,7 @@
 
 [UNRELEASED]: https://github.com/CrhistianMRe/netrwoon/compare/v1.0.0...HEAD
 
+[1.2.1]: https://github.com/CrhistianMRe/netrwoon/compare/v1.1.1...v1.2.1
 [1.1.1]: https://github.com/CrhistianMRe/netrwoon/commits/v1.1.1
 [1.1.0]: https://github.com/CrhistianMRe/netrwoon/commits/v1.1.0
 [1.0.0]: https://github.com/CrhistianMRe/netrwoon/commits/v1.0.0
