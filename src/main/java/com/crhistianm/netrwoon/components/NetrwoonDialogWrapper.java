@@ -24,7 +24,7 @@ public class NetrwoonDialogWrapper extends DialogWrapper {
     private final NetrwoonMainView mainView;
 
     public NetrwoonDialogWrapper(JBList<String> list, Project project) {
-        super(true);
+        super(project, true, IdeModalityType.MODELESS);
         getRootPane().getInputMap().clear();
         loadSize(project);
         mainView = new NetrwoonMainView(list);
