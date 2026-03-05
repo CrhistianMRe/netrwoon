@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [1.2.2] - 2026-03-05
+
+### Fixed
+
+- Netrwoon dialog window no longer blocks background IDE interaction while open
+
 ## [1.2.1] - 2026-03-02
 
 ### Added
@@ -30,6 +36,7 @@
 
 [UNRELEASED]: https://github.com/CrhistianMRe/netrwoon/compare/v1.0.0...HEAD
 
+[1.2.2]: https://github.com/CrhistianMRe/netrwoon/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/CrhistianMRe/netrwoon/compare/v1.1.1...v1.2.1
 [1.1.1]: https://github.com/CrhistianMRe/netrwoon/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/CrhistianMRe/netrwoon/compare/v1.0.0...v1.1.0
