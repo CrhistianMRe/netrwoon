@@ -26,4 +26,9 @@ nnoremap <leader>e :action NetrwoonOpen<CR>
 
   <code>Settings/Preferences → Plugins → Marketplace → Search "Netrwoon" → Install</code>
 
+- **Manually:**
+
+  Download the [latest release](https://github.com/CrhistianMRe/netrwoon/releases/latest) and install in 
+  <code>Settings/Preferences → Plugins → ⚙️ → Install plugin from disk...</code>
+
 
