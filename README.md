@@ -7,7 +7,10 @@
 ## ℹ️ About
 Netrwoon is a JetBrains plugin that provides an integrated directory listing and file navigation. 
 It lets you browse, open, create, rename, and delete files directly in the IDE.
-> Note: [IdeaVim](https://github.com/JetBrains/ideavim) is recommended, since you need to configure the keyboard shortcuts by yourself.
+
+>[!NOTE]
+>[IdeaVim](https://github.com/JetBrains/ideavim) is recommended, since you need to configure the keyboard shortcuts by yourself.
+
 ### The only one action:
 - `NetrwoonOpen`
 
